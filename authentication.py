@@ -9,4 +9,4 @@ def getAccessToken():
     if response.status_code == 200:
         return json.loads(response.text)
 
-print (getAccessToken())
+# print (getAccessToken())
