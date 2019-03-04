@@ -12,7 +12,7 @@ def go():
     }
     offset, limit, canProceed = 0, 50, True
     data = {
-        'include_groups': 'single',
+        'include_groups': 'single,album',
         'market': 'IN',
         'offset': offset,
         'limit': limit
