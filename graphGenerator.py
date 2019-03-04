@@ -1,20 +1,21 @@
 import requests, json, auth
 
 def generateGraph():
-    access_token = auth.getAccessToken()
-    print (access_token)
-    if access_token is None:
+    accessToken = auth.getAccessToken()
+    print (accessToken)
+    if accessToken is None:
         raise ValueError('Not a valid access token')
     headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json', 
-        'Authorization': 'Bearer ' + access_token
+        'Authorization': 'Bearer ' + accessToken
     }
     nodesList = ['A.R. Rahman']
     doneList = {}
     while len(nodesList) != 0:
         currentNode = nodesList.pop(0)
-        if doneList[currentNode] is None:
+        print ('Current artist ' + currentNode)
+        if currentNode not in doneList:
             doneList[currentNode] = True
             searchQueryParams = {
                 'q': currentNode,
@@ -24,8 +25,8 @@ def generateGraph():
             }
             searchQueryResponse = requests.get('https://api.spotify.com/v1/search', headers=headers, params=searchQueryParams)
             if searchQueryResponse.status_code == 200:
-                searchQueryResponse = json.loads(searchQueryResponse)
-                artistSpotifyID = searchQueryResponse['id']
+                searchQueryResponse = json.loads(searchQueryResponse.text)
+                artistSpotifyID = searchQueryResponse['artists']['items'][0]['id']
             else:
                 print (searchQueryResponse.text)
                 raise Exception('Invalid response')
@@ -48,6 +49,9 @@ def generateGraph():
                             print (album['name'])
                             artistsList = [artist['name'] for artist in album['artists']]
                             print (artistsList)
+                            for artist in artistsList:
+                                if artist not in doneList:
+                                    nodesList.append(artist)
                 else:
                     canProceed = False
                     print (resp.text) # error message
