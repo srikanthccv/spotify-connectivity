@@ -6,7 +6,8 @@ def getAccessToken():
     headers = {'Authorization': 'Basic ZGQ5NzY3NjVkODNlNDZiYWIwOWRjOThlZjE2ZDgwZWI6MzljZTY4OThmZGU1NGM5MTk4N2U5OThjZjgxYjk1MTI='}
     data = {'grant_type': 'client_credentials'}
     response = requests.post('https://accounts.spotify.com/api/token', headers=headers, data=data)
+    # print (response)
     if response.status_code == 200:
-        return json.loads(response.text)
-
-# print (getAccessToken())
+        response = json.loads(response.text)
+        # print (response['access_token'])
+        return response['access_token']
