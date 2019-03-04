@@ -17,8 +17,9 @@ def go():
         'offset': offset,
         'limit': limit
     }
-    resp = requests.get('https://api.spotify.com/v1/artists/1mYsTxnqsietFxj1OgoGbG/albums', headers=headers, params=data)
     while canProceed:
+        resp = requests.get('https://api.spotify.com/v1/artists/1mYsTxnqsietFxj1OgoGbG/albums', headers=headers, params=data)
+        data['offset'] = data['offset'] + 50
         if resp.status_code == 200:
             resp = json.loads(resp.text)
             canProceed = (resp['next'] != None)
