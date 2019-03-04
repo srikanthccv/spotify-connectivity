@@ -4,7 +4,6 @@ from time import sleep
 def generateGraph():
     accessToken = auth.getAccessToken()
     requestsCnt = 1
-    # print (accessToken)
     if accessToken is None:
         raise ValueError('Not a valid access token')
     headers = {
@@ -16,7 +15,6 @@ def generateGraph():
     doneList = {}
     while len(nodesList) != 0:
         currentNode = nodesList.pop(0)
-        # print ('Current artist ' + currentNode)
         if currentNode not in doneList:
             doneList[currentNode] = True
             searchQueryParams = {
