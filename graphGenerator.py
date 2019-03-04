@@ -11,20 +11,20 @@ def generateGraph():
         'Content-Type': 'application/json', 
         'Authorization': 'Bearer ' + accessToken
     }
-    nodesList = ['A.R. Rahman']
-    doneList = {}
-    while len(nodesList) != 0:
-        currentNode = nodesList.pop(0)
-        if currentNode not in doneList:
-            doneList[currentNode] = True
+    artistsList = ['A.R. Rahman']
+    processedArtistsList = processedAlbumsList = {}
+    while len(artistsList) != 0:
+        currentArtist = artistsList.pop(0)
+        if currentArtist not in processedArtistsList:
+            processedArtistsList[currentArtist] = True
             searchQueryParams = {
-                'q': currentNode,
+                'q': currentArtist,
                 'type': 'artist',
                 'market': 'IN',
                 'limit': 1
             }
             if requestsCnt%100 == 0:
-                sleep(60)
+                sleep(30)
             searchQueryResponse = requests.get('https://api.spotify.com/v1/search', headers=headers, params=searchQueryParams)
             requestsCnt = requestsCnt + 1
             if searchQueryResponse.status_code == 200:
@@ -41,7 +41,7 @@ def generateGraph():
             }
             while canProceed:
                 if requestsCnt%100 == 0:
-                    sleep(60)
+                    sleep(30)
                 resp = requests.get('https://api.spotify.com/v1/artists/{}/albums'.format(artistSpotifyID), headers=headers, params=data)
                 requestsCnt = requestsCnt + 1
                 data['offset'] = data['offset'] + 50
@@ -52,11 +52,15 @@ def generateGraph():
                     for album in albums:
                         if len(album['artists']) != 1:
                             print (album['name'])
-                            artistsList = [artist['name'] for artist in album['artists']]
-                            print (artistsList)
-                            for artist in artistsList:
-                                if artist not in doneList:
-                                    nodesList.append(artist)
+                            if album['name'] not in processedAlbumsList:
+                                processedAlbumsList[album['name']] = True
+                            else:
+                                continue
+                            collaboratorsList = [artist['name'] for artist in album['artists']]
+                            print (collaboratorsList)
+                            for artist in collaboratorsList:
+                                if artist not in processedArtistsList:
+                                    artistsList.append(artist)
                 else:
                     canProceed = False
                     print (resp.text) # error message
