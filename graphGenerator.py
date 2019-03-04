@@ -1,6 +1,6 @@
 import requests, json, auth
 
-def go():
+def generateGraph():
     access_token = auth.getAccessToken()
     print (access_token)
     if access_token is None:
@@ -33,4 +33,5 @@ def go():
             canProceed = False
             print (resp.text) # error message
 
-go()
+if __name__ == '__main__':
+    generateGraph()
