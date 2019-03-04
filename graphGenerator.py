@@ -51,16 +51,20 @@ def generateGraph():
                     albums = resp['items']
                     for album in albums:
                         if len(album['artists']) != 1:
-                            print (album['name'])
                             if album['name'] not in processedAlbumsList:
                                 processedAlbumsList[album['name']] = True
                             else:
                                 continue
                             collaboratorsList = [artist['name'] for artist in album['artists']]
-                            print (collaboratorsList)
                             for artist in collaboratorsList:
                                 if artist not in processedArtistsList:
                                     artistsList.append(artist)
+                            jsonBlob = {
+                                "album": album['name'],
+                                "artists": collaboratorsList,
+                                "album_url": album['external_urls']['spotify']
+                            }
+                            print (jsonBlob)
                 else:
                     canProceed = False
                     print (resp.text) # error message
