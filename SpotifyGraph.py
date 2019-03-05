@@ -47,7 +47,7 @@ def makeSpotifyGraph(location):
     g = SpotifyGraph()
     with open(location) as file:
         for line in file.readlines():
-            line = json.loads(line)
+            line = eval(line)
             albumNode = Node('Album', line['album'], line['album_url'])
             for artist in line['artists']:
                 artistNode = Node('Artist', artist, '')
