@@ -1,6 +1,18 @@
 import requests, json, authentication
 from time import sleep
 
+def wikiCheck(artist):
+    wiki = 'https://en.wikipedia.org/w/api.php?action=opensearch&search={}&limit=1&format=json'.format(artist)
+    wikiResponse = requests.get(wiki)
+    if wikiResponse.status_code == 200:
+        wikiResponse = json.loads(wikiResponse.text)
+        if len(wikiResponse) == 4 and wikiResponse[3]:
+            wikiPage = requests.get(wikiResponse[3][0])
+            if wikiPage.status_code == 200:
+                if 'India' in wikiPage.text:
+                    return True
+    return False
+
 def extractData():
     accessToken = authentication.getAccessToken()
     requestsCnt = 1
@@ -29,9 +41,11 @@ def extractData():
             requestsCnt = requestsCnt + 1
             if searchQueryResponse.status_code == 200:
                 searchQueryResponse = json.loads(searchQueryResponse.text)
-                artistSpotifyID = searchQueryResponse['artists']['items'][0]['id']
+                if (len(searchQueryResponse['artists']['items']) != 0):
+                    if 'id' in searchQueryResponse['artists']['items'][0]:
+                        artistSpotifyID = searchQueryResponse['artists']['items'][0]['id']
             else:
-                raise Exception('Invalid response')
+                continue
             offset, limit, canProceed = 0, 50, True
             data = {
                 'include_groups': 'single,album',
@@ -56,18 +70,20 @@ def extractData():
                             else:
                                 continue
                             collaboratorsList = [artist['name'] for artist in album['artists']]
+                            indianCollaboratorsList = []
                             for artist in collaboratorsList:
-                                if artist not in processedArtistsList:
+                                if artist not in processedArtistsList and wikiCheck(artist):
                                     artistsList.append(artist)
-                            jsonBlob = {
-                                "album": album['name'],
-                                "artists": collaboratorsList,
-                                "album_url": album['external_urls']['spotify']
-                            }
-                            print (jsonBlob)
+                                    indianCollaboratorsList.append(artist)
+                            if indianCollaboratorsList:
+                                jsonBlob = {
+                                    "album": album['name'],
+                                    "artists": collaboratorsList,
+                                    "album_url": album['external_urls']['spotify']
+                                }
+                                print (jsonBlob)
                 else:
                     canProceed = False
-                    print (resp.text) # error message
 
 if __name__ == '__main__':
     extractData()
