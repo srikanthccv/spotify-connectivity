@@ -42,4 +42,16 @@ class SpotifyGraph:
                     pathList.append(newPath)
 
 if __name__ == "__main__":
-    pass
+    g = SpotifyGraph()
+    x1 = Node('Album', 'Slumdog Millionaire', 'https://open.spotify.com/album/28tUf89XzjZ5O5yOnvVTqM')
+    a1 = Node('Artist', 'A.R. Rahman', '')
+    a2 = Node('Artist', 'Sanjay Joseph', '')
+    x2 = Node('Album', 'Dil Ne Jise Apna Kaha', 'https://open.spotify.com/album/2aeSrDnUhcPA5rbq1Oefc3')
+    a3 = Node('Artist', 'Himesh Reshammiya', '')
+    g.addEdge(x1, a1)
+    g.addEdge(x1, a2)
+    g.addEdge(x2, a3)
+    g.addEdge(x2, a1)
+    expectedSol = ['Sanjay Joseph', 'Slumdog Millionaire', 'A.R. Rahman', 'Dil Ne Jise Apna Kaha', 'Himesh Reshammiya']
+    returnSol = [n.nodeVal for n in g.run('Sanjay Joseph', 'Himesh Reshammiya')]
+    assert(expectedSol == returnSol)
