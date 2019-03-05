@@ -1,8 +1,8 @@
-import requests, json, auth
+import requests, json, authentication
 from time import sleep
 
 def extractData():
-    accessToken = auth.getAccessToken()
+    accessToken = authentication.getAccessToken()
     requestsCnt = 1
     if accessToken is None:
         raise ValueError('Not a valid access token')

@@ -55,6 +55,7 @@ def makeSpotifyGraph(location):
     return g
 
 if __name__ == "__main__":
+    # run some simple test
     g = SpotifyGraph()
     x1 = Node('Album', 'Slumdog Millionaire', 'https://open.spotify.com/album/28tUf89XzjZ5O5yOnvVTqM')
     a1 = Node('Artist', 'A.R. Rahman', '')
