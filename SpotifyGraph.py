@@ -52,6 +52,7 @@ def makeSpotifyGraph(location):
             for artist in line['artists']:
                 artistNode = Node('Artist', artist, '')
                 g.addEdge(albumNode, artistNode)
+    return g
 
 if __name__ == "__main__":
     g = SpotifyGraph()
