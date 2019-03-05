@@ -1,3 +1,5 @@
+import json
+
 class Node:
     def __init__(self, nodeType, nodeVal, spotifyLink):
         self.nodeType = nodeType        # could be artist or album
@@ -40,6 +42,16 @@ class SpotifyGraph:
                     newPath = list(currPath)
                     newPath.append(adjacent)
                     pathList.append(newPath)
+
+def makeSpotifyGraph(location):
+    g = SpotifyGraph()
+    with open(location) as file:
+        for line in file.readlines():
+            line = json.loads(line)
+            albumNode = Node('Album', line['album'], line['album_url'])
+            for artist in line['artists']:
+                artistNode = Node('Artist', artist, '')
+                g.addEdge(albumNode, artistNode)
 
 if __name__ == "__main__":
     g = SpotifyGraph()
