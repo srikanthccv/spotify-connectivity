@@ -2,8 +2,32 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+        <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+        <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
+        <link rel="stylesheer" href="../static/style.css">
     </head>
-<body>
+    <body>
+        <form action="/show" method="POST" id="artist-form">
+            <select class="chzn-select" name="firstArtist">
+                {% for artist in artists %}
+                    <option value="{{ artist }}">{{ artist }}</option>
+                {% endfor %}
+            </select>
+            <select class="chzn-select" name="secondArtist">
+                {% for artist in artists %}
+                    <option value="{{ artist }}">{{ artist }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" form="artist-form" value="Submit">Find link</button>
+        </form> <br>
 
-</body>
+        <script type="text/javascript">
+            $(function() {
+                $(".chzn-select").chosen({width: "30%"});
+            });
+        </script>
+    </body>
 </html>
