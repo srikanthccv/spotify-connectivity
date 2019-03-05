@@ -1,7 +1,7 @@
 import requests, json, auth
 from time import sleep
 
-def generateGraph():
+def extractData():
     accessToken = auth.getAccessToken()
     requestsCnt = 1
     if accessToken is None:
@@ -70,4 +70,4 @@ def generateGraph():
                     print (resp.text) # error message
 
 if __name__ == '__main__':
-    generateGraph()
+    extractData()
