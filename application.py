@@ -1,5 +1,5 @@
 import SpotifyGraph, json
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 
 application = Flask(__name__)
 
@@ -23,8 +23,8 @@ def show():
         redirect(url_for('findlink'))
     else:
         path = g.run(firstArtist, secondArtist)
-        l = [n.nodeVal for n in path]
-        return json.dumps(l)
+        l = [(n.nodeVal, n.spotifyLink) for n in path]
+        return render_template('link_path.html', data=l)
 
 if __name__ == "__main__":
     application.run(debug=True)
