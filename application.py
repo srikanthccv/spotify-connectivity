@@ -27,4 +27,4 @@ def show():
         return render_template('link_path.html', data=l)
 
 if __name__ == "__main__":
-    application.run(debug=True)
+    application.run(host='0.0.0.0')
