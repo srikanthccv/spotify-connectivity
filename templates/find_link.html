@@ -10,6 +10,9 @@
         <link rel="stylesheer" href="../static/style.css">
     </head>
     <body>
+        <div class="alert alert-info">
+            Your favourite artist may not present in list because of incomplete data or there could be some invalid artist names.
+        </div>
         <form action="/show" method="POST" id="artist-form">
             <select class="chzn-select" name="firstArtist">
                 {% for artist in artists %}
@@ -21,7 +24,7 @@
                     <option value="{{ artist }}">{{ artist }}</option>
                 {% endfor %}
             </select>
-            <button type="submit" form="artist-form" value="Submit">Find link</button>
+            <button type="submit" class="btn btn-primary btn-sm" form="artist-form" value="Submit">Find link</button>
         </form> <br>
 
         <script type="text/javascript">
