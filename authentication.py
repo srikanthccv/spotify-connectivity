@@ -1,6 +1,6 @@
 import requests
 import json
-# i have reset these client id and client secrect to make this repo public
+# I have reset these client id and client secrect to make this repo public
 clientId = 'dd976765d83e46bab09dc98ef16d80eb'
 clientSecret = '39ce6898fde54c91987e998cf81b9512'
 
